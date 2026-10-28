@@ -1,20 +1,29 @@
+
 name: zerocracy
+
 'on':
-  workflow_dispatch:
   schedule:
     - cron: '42 * * * *'
+  workflow_dispatch:
+
 concurrency:
   group: zerocracy
   cancel-in-progress: false
+
 jobs:
   zerocracy:
+    if: github.repository_owner == 'jasmineabram107-netizen'
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+
     steps:
-      - uses: actions/checkout@v6
-      - uses: zerocracy/judges-action@0.17.23
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run Zerocracy Judges
+        uses: zerocracy/judges-action@0.17.23
         with:
           token: ${{ secrets.ZEROCRACY_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repositories: renyamamoto2026-cmyk/zc-fund
-          factbase: zcfund.fb
+          github-token: ${{ secrets.ZEROCRACY_PAT }}
+          repositories: jasmineabram107-netizen/zc_fund
+          factbase: zc_fund.fb
